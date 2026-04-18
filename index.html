@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تقویم روزانه - گروه تابان</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap');
+
+        :root {
+            --bg-color: #05070a;
+            --glass-surface: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent-color: #4096ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* No scroll */
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--bg-color);
+            color: #ffffff;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: 
+                radial-gradient(circle at 20% 30%, #1a237e 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, #4a148c 0%, transparent 40%);
+        }
+
+        /* Background image placeholder - consistent everyday */
+        .bg-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://picsum.photos/seed/taban_office/1920/1080?grayscale&blur=2');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .main-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            max-height: 90vh;
+            background: var(--glass-surface);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+
+        .weekday {
+            font-size: 20px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .day-number {
+            font-size: 130px;
+            font-weight: 800;
+            line-height: 1;
+            margin: 10px 0;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.4) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .month-year {
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .gregorian {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .divider {
+            width: 80%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+
+        .quote-box {
+            margin: 10px 0;
+            padding: 0 10px;
+        }
+
+        .quote-fa {
+            font-size: 18px;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .quote-en {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .footer {
+            margin-top: auto;
+            width: 100%;
+            padding-top: 25px;
+        }
+
+        .brand-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .brand-text {
+            text-align: right;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            display: block;
+        }
+
+        .brand-link {
+            font-size: 11px;
+            color: var(--accent-color);
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        .contact-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 15px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .phone {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.5px;
+            direction: ltr; /* Phone number left-to-right */
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .icon {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+        }
+
+        /* Simple helper for mobile devices */
+        @media (max-height: 700px) {
+            .main-card { padding: 30px 20px; }
+            .day-number { font-size: 100px; }
+            .month-year { font-size: 24px; }
+            .quote-fa { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="bg-overlay"></div>
+        
+        <main class="main-card">
+            <div class="weekday" id="day-name">--</div>
+            <div class="day-number" id="day-number">--</div>
+            <div class="month-year" id="month-year">--</div>
+            <div class="gregorian" id="gregorian">--</div>
+
+            <div class="divider"></div>
+
+            <div class="quote-box">
+                <div class="quote-fa" id="quote-fa">صبر داشته باش و به مسیر اعتماد کن.</div>
+                <div class="quote-en" id="quote-en">Stay patient and trust the process.</div>
+            </div>
+
+            <div class="footer">
+                <div class="brand-info">
+                    <div class="logo">
+                        <img src="https://picsum.photos/seed/taban_logo/100/100" alt="Taban Group">
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">گروه تابان</span>
+                        <a href="https://taban-group.com" class="brand-link">taban-group.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-row">
+                    <div class="phone">+968 7174 6098</div>
+                    <div class="social-icons">
+                        <!-- Simplified SVG Icons for one-file portability -->
+                        <a href="#" class="icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="#" class="icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function initCalendar() {
+            const now = new Date();
+
+            // Jalali Date
+            const faOptions = { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' };
+            const faFormatter = new Intl.DateTimeFormat('fa-IR-u-ca-persian', faOptions);
+            const faParts = faFormatter.formatToParts(now);
+
+            let jalaliDay = '', jalaliMonth = '', jalaliYear = '', jalaliWeekday = '';
+            faParts.forEach(p => {
+                if (p.type === 'day') jalaliDay = p.value;
+                if (p.type === 'month') jalaliMonth = p.value;
+                if (p.type === 'year') jalaliYear = p.value;
+                if (p.type === 'weekday') jalaliWeekday = p.value;
+            });
+
+            // Gregorian Date
+            const enOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+            const enFormatter = new Intl.DateTimeFormat('en-US', enOptions);
+            const enFormatted = enFormatter.format(now);
+
+            document.getElementById('day-name').textContent = jalaliWeekday;
+            document.getElementById('day-number').textContent = jalaliDay;
+            document.getElementById('month-year').textContent = jalaliMonth + ' ' + jalaliYear;
+            document.getElementById('gregorian').textContent = enFormatted;
+
+            // Simplified rotation of predefined quotes for true offline/single-file reliability
+            const quotes = [
+                { fa: "صبر داشته باش و به مسیر اعتماد کن.", en: "Stay patient and trust the process." },
+                { fa: "هر روز فرصت جدیدی برای شروعی دوباره است.", en: "Every day is a fresh start." },
+                { fa: "موفقیت مجموع تلاش‌های کوچک روزانه است.", en: "Success is the sum of small efforts." },
+                { fa: "امروز را معنادار بساز.", en: "Make today meaningful." }
+            ];
+            
+            // Pick a quote based on the day of the year
+            const start = new Date(now.getFullYear(), 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+            const quote = quotes[dayOfYear % quotes.length];
+
+            document.getElementById('quote-fa').textContent = quote.fa;
+            document.getElementById('quote-en').textContent = quote.en;
+        }
+
+        document.addEventListener('DOMContentLoaded', initCalendar);
+    </script>
+</body>
+</html>
+
